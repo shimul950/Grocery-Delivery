@@ -1,6 +1,45 @@
+import { Toaster } from "react-hot-toast";
+import { Route, Routes } from "react-router-dom";
+import Login from "./pages/Login";
+import AppLayout from "./pages/AppLayout";
+import Home from "./pages/Home";
+import Products from "./pages/Products";
+import ProductsDetails from "./pages/ProductsDetails";
+import SearchResults from "./pages/SearchResults";
+import FlashDeals from "./pages/FlashDeals";
+import CheckOut from "./pages/CheckOut";
+import MyOrders from "./pages/MyOrders";
+import OrderTracking from "./pages/OrderTracking";
+import Addresses from "./pages/Addresses";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
   return (
-    <div>App</div>
+    <>
+      <Toaster position ='top-right' toastOptions={{duration:3000, style:{background:"#1B3022", color: '#fff', borderRadius:"12px", fontSize:"14px"}}} />
+
+      <Routes>
+        {/* Auth pages - No Navbar/footer */}
+        <Route path="/login" element={<Login/>} />
+
+        {/* Main pages - With Navbar/footer */}
+        <Route path="/" element={<AppLayout/>}>
+          <Route index element={<Home/>} />
+          <Route path="products" element={<Products/>} />
+          <Route path="products/:id" element={<ProductsDetails/>} />
+          <Route path="search" element={<SearchResults/>} />
+          <Route path="deals" element={<FlashDeals/>} />
+          
+          <Route element={<ProtectedRoute/>}>
+            <Route path="checkout" element={<CheckOut/>} />
+            <Route path="orders" element={<MyOrders/>} />
+            <Route path="orders/:id" element={<OrderTracking/>} />
+            <Route path="addresses" element={<Addresses/>} />
+          
+          </Route>
+        </Route>
+
+      </Routes>
+    </>
   )
 }
